@@ -13,9 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    colorlistener.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    colorlistener.h
 
 FORMS    += mainwindow.ui
 

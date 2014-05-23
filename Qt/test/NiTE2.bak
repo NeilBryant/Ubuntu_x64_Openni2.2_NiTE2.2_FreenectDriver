@@ -1,0 +1,42 @@
+#include <iostream>
+#include <NiTE.h>
+
+int main()
+{
+    nite::NiTE::initialize();
+
+    nite::UserTracker mUserTracker;
+    mUserTracker.create();
+
+    nite::UserTrackerFrameRef mUserFrame;
+    for(int i=0;i<300;++i)
+    {
+        mUserTracker.readFrame(&mUserFrame);
+        const nite::Array<nite::UserData> &mUsers = mUserFrame.getUsers();
+        for(int i=0;i<mUsers.getSize();++i)
+        {
+            const nite::UserData &tUser = mUsers[i];
+            if(tUser.isNew())
+            {
+                std::cout<<"New User ["<<tUser.getId()<<"] found"<< std::endl;
+                mUserTracker.startSkeletonTracking(tUser.getId());
+            }
+            if(tUser.isLost())
+            {
+                std::cout<<"User ["<<tUser.getId()<<"] lost"<< std::endl;
+            }
+
+            const nite::Skeleton &mSkeleton = tUser.getSkeleton();
+            if(mSkeleton.getState() == nite::SKELETON_TRACKED)
+            {
+                const nite::SkeletonJoint& mHead = mSkeleton.getJoint(nite::JOINT_HEAD);
+                const nite::Point3f &mPos = mHead.getPosition();
+                std::cout << " > " << mPos.x << "/" << mPos.y << "/" << mPos.z << std::endl;
+                std::cout << "(" << mHead.getPositionConfidence() << ")" << std::endl;
+            }
+        }
+    }
+
+    nite::NiTE::shutdown();
+    return 0;
+}

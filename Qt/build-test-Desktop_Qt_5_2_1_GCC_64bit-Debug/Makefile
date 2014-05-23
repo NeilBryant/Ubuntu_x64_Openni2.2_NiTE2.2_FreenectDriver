@@ -46,9 +46,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../test/main.cpp \
-		../test/mainwindow.cpp moc_mainwindow.cpp
+		../test/mainwindow.cpp \
+		../test/colorlistener.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		colorlistener.o \
 		moc_mainwindow.o
 DIST          = /opt/Qt5.2.1/5.2.1/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.2.1/5.2.1/gcc_64/mkspecs/common/shell-unix.conf \
@@ -413,7 +415,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/test1.0.0 || mkdir -p .tmp/test1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/test1.0.0/ && $(COPY_FILE) --parents ../test/mainwindow.h .tmp/test1.0.0/ && $(COPY_FILE) --parents ../test/main.cpp ../test/mainwindow.cpp .tmp/test1.0.0/ && $(COPY_FILE) --parents ../test/mainwindow.ui .tmp/test1.0.0/ && (cd `dirname .tmp/test1.0.0` && $(TAR) test1.0.0.tar test1.0.0 && $(COMPRESS) test1.0.0.tar) && $(MOVE) `dirname .tmp/test1.0.0`/test1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/test1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/test1.0.0/ && $(COPY_FILE) --parents ../test/mainwindow.h ../test/colorlistener.h .tmp/test1.0.0/ && $(COPY_FILE) --parents ../test/main.cpp ../test/mainwindow.cpp ../test/colorlistener.cpp .tmp/test1.0.0/ && $(COPY_FILE) --parents ../test/mainwindow.ui .tmp/test1.0.0/ && (cd `dirname .tmp/test1.0.0` && $(TAR) test1.0.0.tar test1.0.0 && $(COMPRESS) test1.0.0.tar) && $(MOVE) `dirname .tmp/test1.0.0`/test1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/test1.0.0
 
 
 clean:compiler_clean 
@@ -550,6 +552,23 @@ moc_mainwindow.cpp: /opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/QPaintEvent \
+		../../OpenNI2_Include/OpenNI.h \
+		../../OpenNI2_Include/OniPlatform.h \
+		../../OpenNI2_Include/Win32/OniPlatformWin32.h \
+		../../OpenNI2_Include/Android-Arm/OniPlatformAndroid-Arm.h \
+		../../OpenNI2_Include/Linux-x86/OniPlatformLinux-x86.h \
+		../../OpenNI2_Include/Linux-Arm/OniPlatformLinux-Arm.h \
+		../../OpenNI2_Include/MacOSX/OniPlatformMacOSX.h \
+		../../OpenNI2_Include/OniProperties.h \
+		../../OpenNI2_Include/OniEnums.h \
+		../../OpenNI2_Include/OniCAPI.h \
+		../../OpenNI2_Include/OniCTypes.h \
+		../../OpenNI2_Include/OniCEnums.h \
+		../../OpenNI2_Include/OniCProperties.h \
+		../../OpenNI2_Include/OniVersion.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/QVector \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/QKeyEvent \
 		../test/mainwindow.h
 	/opt/Qt5.2.1/5.2.1/gcc_64/bin/moc $(DEFINES) $(INCPATH) ../test/mainwindow.h -o moc_mainwindow.cpp
 
@@ -571,7 +590,120 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: ../test/main.cpp ../../OpenNI2_Include/OpenNI.h \
+main.o: ../test/main.cpp ../test/mainwindow.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_integrity.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qoldbasicatomic.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_vxworks.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_power.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_alpha.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_bfin.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_s390.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_sh4a.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_sparc.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/QPaintEvent \
+		../../OpenNI2_Include/OpenNI.h \
 		../../OpenNI2_Include/OniPlatform.h \
 		../../OpenNI2_Include/Win32/OniPlatformWin32.h \
 		../../OpenNI2_Include/Android-Arm/OniPlatformAndroid-Arm.h \
@@ -584,7 +716,16 @@ main.o: ../test/main.cpp ../../OpenNI2_Include/OpenNI.h \
 		../../OpenNI2_Include/OniCTypes.h \
 		../../OpenNI2_Include/OniCEnums.h \
 		../../OpenNI2_Include/OniCProperties.h \
-		../../OpenNI2_Include/OniVersion.h
+		../../OpenNI2_Include/OniVersion.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/QVector \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/QKeyEvent \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../test/main.cpp
 
 mainwindow.o: ../test/mainwindow.cpp ../test/mainwindow.h \
@@ -699,6 +840,23 @@ mainwindow.o: ../test/mainwindow.cpp ../test/mainwindow.h \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/QPaintEvent \
+		../../OpenNI2_Include/OpenNI.h \
+		../../OpenNI2_Include/OniPlatform.h \
+		../../OpenNI2_Include/Win32/OniPlatformWin32.h \
+		../../OpenNI2_Include/Android-Arm/OniPlatformAndroid-Arm.h \
+		../../OpenNI2_Include/Linux-x86/OniPlatformLinux-x86.h \
+		../../OpenNI2_Include/Linux-Arm/OniPlatformLinux-Arm.h \
+		../../OpenNI2_Include/MacOSX/OniPlatformMacOSX.h \
+		../../OpenNI2_Include/OniProperties.h \
+		../../OpenNI2_Include/OniEnums.h \
+		../../OpenNI2_Include/OniCAPI.h \
+		../../OpenNI2_Include/OniCTypes.h \
+		../../OpenNI2_Include/OniCEnums.h \
+		../../OpenNI2_Include/OniCProperties.h \
+		../../OpenNI2_Include/OniVersion.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/QVector \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/QKeyEvent \
 		ui_mainwindow.h \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/QVariant \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/QAction \
@@ -733,12 +891,144 @@ mainwindow.o: ../test/mainwindow.cpp ../test/mainwindow.h \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/QMenuBar \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qmenubar.h \
 		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/QStatusBar \
-		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qstatusbar.h \
-		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/QToolBar \
-		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qtoolbar.h \
-		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/QWidget
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/QWidget \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/QPainter \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpainter.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpen.h \
+		../test/colorlistener.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/QImage
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../test/mainwindow.cpp
+
+colorlistener.o: ../test/colorlistener.cpp ../test/colorlistener.h \
+		../../OpenNI2_Include/OpenNI.h \
+		../../OpenNI2_Include/OniPlatform.h \
+		../../OpenNI2_Include/Win32/OniPlatformWin32.h \
+		../../OpenNI2_Include/Android-Arm/OniPlatformAndroid-Arm.h \
+		../../OpenNI2_Include/Linux-x86/OniPlatformLinux-x86.h \
+		../../OpenNI2_Include/Linux-Arm/OniPlatformLinux-Arm.h \
+		../../OpenNI2_Include/MacOSX/OniPlatformMacOSX.h \
+		../../OpenNI2_Include/OniProperties.h \
+		../../OpenNI2_Include/OniEnums.h \
+		../../OpenNI2_Include/OniCAPI.h \
+		../../OpenNI2_Include/OniCTypes.h \
+		../../OpenNI2_Include/OniCEnums.h \
+		../../OpenNI2_Include/OniCProperties.h \
+		../../OpenNI2_Include/OniVersion.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/QVector \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_integrity.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qoldbasicatomic.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_vxworks.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_power.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_alpha.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_bfin.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_s390.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_sh4a.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_sparc.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.2.1/5.2.1/gcc_64/include/QtCore/QDebug
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o colorlistener.o ../test/colorlistener.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
